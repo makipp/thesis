@@ -1,0 +1,74 @@
+---
+chapter: 1
+knit: "bookdown::render_book"
+---
+
+# Literature Review {#ch:litreview}
+
+## Terminology and introduction
+
+Suppose we have some model $f:\mathbf{R}^d \to Y$ of particle physics data, trained on some $d$-dimensional dataset $\mathbf{X} = (\mathbf{x}_1, \mathbf{x}_2, \ldots \mathbf{x}_d)$. We partition $Y$ into subsets $Y_i$ called _groups_, and then examine the pre-images $f^{-1}(Y)$ to try to identify differences. These $Y_i$ could be outcomes of an experiment, or percentile ranges in a histogram. For example, we could split $Y$ into the upper 90\% and lower 10\% of some $f:\mathbf{R}^d \to \mathbf{R}$, and see how the shape of the data that gives rise to each of those changes.
+
+When $d=2$, for example in the case of temperature measurements on the surface of the earth, we can plot the datapoints as a scatterplot (in this case, on a map) directly and immediately see where the differences are. When $d=3$, we can project the data onto two dimensions via a 3D scatterplot with a little imagination, or by adding additional information to a two-dimensional graphic; but for higher dimensions, many more projections may be needed in order to expose meaningful shape information and allow the viewer of the data to discern differences between the groups.
+
+The tour algorithm, [@gt_pp;@gt_pp_mc], is a way of systematically generating and displaying such projections on a visual display in order to allow the user to tell apart groups of data based on differences in the shape of their projections. It can do this either randomly, or by picking projections judged interesting according to some criterion or index function.
+
+Current supervised classification methods, such as Linear Discriminant Analysis, Principal Component Analysis, Support Vector Machines and others, can be used to discriminate between groups with different centers, and can be adapted for use with the tour; but they are not good at discriminating between groups of similar centres, regardless of shape differences. Moreover, the current implementation of the tour algorithm is outdated, requiring multiple dependencies on the viewer's computer, including Java, and needs to be updated. 
+
+The aim of this work is twofold: to develop an index function for use with the tour algorithm to better discriminate between groups of different shapes, and to write a new graphical user interface for the tour algorithm which implements this function.
+
+## Tour
+
+A complete description of projection interpolation and the tour algorithms is described in detail in @gt_pp_mc. What follows is a brief summary of that description, along with some discussion of projection pursuit and applications to the current problem. \\
+
+The tour is a way to visualise multi-dimensional data by projecting it to two dimensionals for visual display on a computer display. In the same way that a three-dimensional object projects different shadows when viewed from different angles, a multi-dimensional data can be projected onto two dimensions. A _tour_ is a collection of different such projections strung together and interpolated to display like a movie, giving the user a ``tour'' of the data from different directions.
+
+When selecting projections to view, various methods can be used. The _grand tour_ picks and interpolates between projections at random, while the _guided tour_ uses a criterion function, called a _projection pursuit_ index, to pick new target planes. If left to run long enough, the grand tour will show all possible projections of the data, while the guided tour will try to show only ``interesting'' projections, as judged by the projection pursuit index.
+
+### Projections, planes and frames
+
+A _projection_ from $p$- to $2$-dimensional Euclidean space is the result of pre-multiplying a $p \times 2$ orthonormal matrix $\mathbf{A}$ by an $n \times p$ data matrix, $\mathbf{X}$. For our purposes, the data matrix $\mathbf{X}$ is constant, so we also simply refer to the matrix $\mathbf{A}$ as the projection, or _frame_. The resulting projected data matrix $\mathbf{X}\mathbf{A}$ has dimension $n \times 2$ and this is rendered as a 2-dimensional scatterplot of $n$ points. 
+
+The orthonormal matrix, or frame, $\mathbf{A}$, describes a 2-dimensional plane in $p$- space. There are infinitely many such frames which describe the same plane -- for example, rotating a frame $\mathbf{A}$ within the plane represents a new . The tour shows different projections of our data $\mathbf{X}$ by _rotating_ these planes $\mathbf{A}$, calculating new projections of interest $\mathbf{X}\mathbf{A}$, and interpolating between them. Note: we should avoid calculating rotations which lie in the plane of view, as this would result simply in a 2D rotation of the scatterplot and serve no other purpose than to distract the viewer.
+
+### Interpolating between planes
+
+The core of the tour algorithm, as originally implemented in the visualisation software GGobi [@ggobi] and given in @gt_pp_mc, is the following:
+
+1. Given a starting $p \times d$ projection $\mathbf{A}_a$ describging the starting plane, create a new target projection $\mathbf{A}_z$, describing the target plane. Recall these projections may also be called orthonormal frames. To find the optimal rotation of the starting plane into the target plane, we need to find the frames in each plane which are the closest.
+2. Determine the shortest path between the frames using singular value decomposition. $\mathbf{A}_a^\prime\mathbf{A}_z = \mathbf{V}_a \Lambda \mathbf{A}_z^\prime$, $\Lambda = \mathrm{diag}(\lambda_1 \geq \ldots \geq \lambda d)$, and the principal directions in each plane are $\mathbf{B}_a = \mathbf{A}_a$, $\mathbf{B}_z = \mathbf{A}_z\mathbf{V}_z$. the principal directions are the frames describing the startnig and target planes which have the shortest distance between them. The rotation si definsed with respect to these principal directions. Ths singular values, $\lambda_i, i = 1, \ldots, d$, define the smallest angles between the principal directions.
+3. Orthonormalize $\mathbf{B}_z$ on $\mathbf{B}_a$, giving $\mathbf{B}_{*}$ to create a rotation framework.
+4. Calculate the principal angles, $\tau_i = \cos^{-1}\lambda_i, i = 1,\ldots, d.$
+5. Rotate the frames by dividins the angles into increments, $\tau_i(t)$, for $t \in (0, 1]$ and create the $i^{\mathrm th}$ column of the new frame, $\mathbf{b}_i$, from the $i^{\mathrm th}$ columns of $\mathbf{B}_a$ and $\mathbf{B}_*$, by $\mathbf{b}_i(t) = \cos(\tau_i(t))\mathbf{b}_{ai} + \sin(\tau_i(t))\mathbf{b}_{*i}.$ When $t = 1$, the frame will be $\mathbf{B}_z$.
+6. Project the data into $\mathbf{A}(t) = \mathbf{B}(t)\mathbf{V}_a$.
+7. Continue the rotation until $t = 1$. Set the current projection to be $\mathbf{A}_a$ and go back to step 1.
+
+This algorithm is used in calculating all different types of tour path. The grand toyr picks the target frames $\mathbf{A}_z$ at random, while the guided tour picks them based on a so-called _projection pursuit index function_.
+
+## Projection pursuit
+
+Projection pursuit is a statistical technique which is used to generate ``interesting'' low-dimensional -- in our case, 2-dimensional -- projections of a high-dimensional point cloud by numerically maximising a certain objective function, which we call a _projection index_. It was first implemented by Friedman and Tukey (1974). Projection pursuit can be thought of as a method to increase the likelihood of finding interesting projections.
+
+Formally, projection optimises a criterion or index function $f(\mathbf{X}{A})$ over the space of all projections $A$. However, the purpose of this optimisation is not simply to find the global maximum, since there may be local maxima which expose interesting features of the point cloud, which is the purpose of the visualisation. Hence there must be some method which allows the exposure of both local and global maxima.
+
+In the Guided tour, projection pursuit is implemented using a modified simulated annealing method due to @annealing. They use a modified simulated annealing method using two different temperatures. One is used for neighbourhood definition, and the other allows the algoirthm to visit a local minimum and then jump out and explore for other minima. The temperature for neighbourhood definition is re-scaled by a cooling patameter, determining how many iterations are needed to converge and whether the maximum is likely to be a local maximum or global maximum.:
+
+1. From the current projection $\mathbf{A}_a$, calculate the initial projection pursuit index value, $I_0$.
+2. For $i = 1, 2, \ldots$:
+    a) Generate new projections, $\mathbf{A}_i = \mathbf{A}_a + c^{i} \mathbf{B}$, from a neighbourhood of the current projection where the size of the neighbourhood is specified by the cooling parameter, $c$ and a random projection, $\mathbf{B}$.
+    b) Calculate the index value for the new projection, $I_i$, the difference, $\Delta I_i = I_i - I_0$ and $T_i = \frac{T_0}{\log(i+1)}$, where $T_0$ is an initial temperature
+    c) Take the new projection $\mathbf{A}_i$ to be the target, $A_z$ with probability $\rho = \mathrm{min}\left(\exp\left(\frac{\Delta I_i}{T_i}\right), 1\right)$ and interpolate from the current projection to the target projection $\mathbf{A}_z$ using the interpolation method described previously
+    d) Set $\mathbf{A}_a = \mathbf{A}_i$
+3. Repeat a) -- d) until $\Delta I_i$ is small.
+
+Any function $f$ which characterises somethign interesting about the projected data can be used in this procedure. As part of this work, a new projection pursuit index was implemented using Scagnostics.
+
+## Scagnostics
+
+Scagnostics is a neologism for the term _scatterplot diagnostics_, first introduced by John and Paul Tukey during the mid-1980s. It was developed as a method to characterise 2D distributions of orthogonal projections of sets of points in multi-dimensional space. @scag created a set of nine scagnostics measures -- Outlying, Skewed, Clumpy, Sparse, Striated, Convex, Skinny, Stringy, and Monotonic -- which give a number between zero and one to each scatter plot.
+
+The idea was that, while scatterplot matrices of all variables in a dataset can become overwhelming and difficult to interpret, a scatterplot matrix of the _scagnostics_ can provide information on differences between groups, exceptions and patterns in a much more concise view.
+
+In the paper by @scag, the calculation of the 9 scagnostics measures is carried out by creating a Euclidean graph, removing outliers to render the computations more robust, and calculating the scagnostics using various features of those graphs. For example, the Outlying measure is calculated by dividing the length of the graph before removing the outliers by its length afterwards.
+
+A C++ version of Leland Wilkson's original Java code [@scag] has been implemented by Hadley Wickham as an R package which calculates all nine scagnostics without 

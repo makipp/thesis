@@ -1,0 +1,16 @@
+---
+knit: "bookdown::render_book"
+---
+
+# Abstract {-}
+
+Supervised classification methods, such as Linear and Quadratic Discriminant analysis (LDA/QDA), Support Vector Machines (SVM) and Neural Networks, can be used to discriminate between two sets of data with different centres. There is a need for a function for fast, accurate shape discrimination which is able to discriminate between groups with similar centres, but based on differences in their shape.
+
+The aim of this thesis is to address this need by writing a new projection pursuit index function for use with the Guided Tour algorithm, and evaluating its performance via application to multi-dimensional particle physics datasets. The work involved programming a new graphical user interface (GUI) for the tourr library of the R computing package, using the Shiny library from RStudio and the Javascript library D3.js, which stands for Data Driven Documents.
+
+A new method of setting up R to communicate in real time with D3 was devised in order to animate 2D tour paths in real time, as well as a density plot overlay for use by theoretical physics.
+
+<!-- 
+The following line is required to re-set page numbering after preliminary material. Do not remove
+-->
+\clearpage\pagenumbering{arabic}\setcounter{page}{0}

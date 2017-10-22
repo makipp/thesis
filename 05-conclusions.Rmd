@@ -1,0 +1,28 @@
+---
+chapter: 5
+knit: "bookdown::render_book"
+---
+
+# Conclusions {#ch:conclusions}
+
+The work that has been done is a substantial step forward in providing an easy to use, interactive interface to the tour. However, the work is not finished.
+
+## Speed
+
+Computing and interpolating between bases can be computationally expensive for large datasets, and this was found even with as few as 5000 data points. Some work in optimisation needs to be done, potentially saving projections in a buffer before viewing in order to make it smooth, or parallelisation of the matrix multiplications, or some other optimisation to improve speed.
+
+Likewise, rendering many points using SVG technology can strain the resources of the computer running the web browser, and if the computer is both calculating the bases and displaying them with D3, the problem is compounded. If the bottle-neck in animating scatter plots proves to be too much going forward, alternative rendering technology may be required, such as Canvas or other software.
+
+## Density displays
+
+The density display as implemented in the current working version currently is not separate for each group, and the number of bins used for the kernel density estimate is variable, according to the D3 library used to produce it. Ideally, there would be multiple density displays for each group, and the number of bins should be fixed.
+
+## External data sets
+
+Currently, the only way to load in a data set for use is to modify the code and add one's own `read_csv` line. Ideally there would be an option for the user to select their own CSV file for analysis, using Shiny's `fileInput()` UI widget; alternatively, external connections could be managed using any of the variety of third-party remote connections available to R, including HTTP download or SQL-type connections.
+
+## Manual tour controls
+
+Sliders to manually manipulate the combinations of the different variables could be added in order to allow the user to manipulate the projection directly. Instead of taking a random or guided tour through the projection space, per-variable sliders could be added as a factor to modify or replace the relevant cells in the projection matrix $\mathbf{A}$. This would allow the user to add or remove specific variables with preselected weights, in order to view the effect of adding/removing variables in clearer detail. @gt_pp_mc @ggobi @annealing @gt_pp @pp_indexes @scag @shiny @tourr_library @tourrGui_library @scagnostics 
+
+

@@ -1,0 +1,159 @@
+---
+references:
+- id: gt_pp_mc
+  type: article-journal
+  author:
+  - family: Cook
+    given: Dianne
+  - family: Buja
+    given: Andreas
+  - family: Lee
+    given: Eun-Kyung
+  - family: Wickham
+    given: Hadley
+  issued:
+  - year: '2007'
+  title: Grand tours, projection pursuit guided tours and manual controls
+
+- id: ggobi
+  type: article-journal
+  author:
+  - family: Deborah F Swayne
+    given: Duncan Temple Lang
+    suffix: Andreas Buja
+  issued:
+  - literal: 2011/12
+  title: 'GGobi: A data visualization system'
+  title-short: GGobi
+  container-title: Astrophysics Source Code Library
+
+- id: annealing
+  type: article-journal
+  author:
+  - family: Lee
+    given: Eun-Kyung
+  - family: Cook
+    given: Dianne
+  - family: Klinke
+    given: Sigbert
+  - family: Lumley
+    given: Thomas
+  issued:
+  - year: '2005'
+  title: Projection pursuit for exploratory supervised classification
+  container-title: Journal of Computational and Graphical Statistics
+  page: '831-846'
+  volume: '14'
+  issue: '4'
+
+- id: gt_pp
+  type: article-journal
+  author:
+  - family: Dianne Cook
+    given: Javier Cabrera
+    suffix: Andreas Buja
+  issued:
+  - year: '1995'
+  title: Grand tour and projection pursuit
+  container-title: Journal of Computational and Graphical Statistics
+  page: '155-172'
+  volume: '4'
+  issue: '4'
+
+- id: scag
+  type: article-journal
+  author:
+  - family: Wilkinson
+    given: Leland
+  - family: Willis
+    given: Graham
+  issued:
+  - year: '2008'
+  title: Scagnostics distributions
+  container-title: Journal of Computational and Graphical Statistics
+  page: '473-491'
+  volume: '17'
+  issue: '2'
+
+- id: pp_indexes
+  type: article-journal
+  author:
+  - family: Cook
+    given: Dianne
+  - family: Buja
+    given: Andreas
+  - family: Cabrera
+    given: Javier
+  issued:
+  - year: '1993'
+  title: Projection pursuit indexes based on orthonormal function expansions
+  container-title: Journal of Computational and Graphical Statistics
+  page: '225-250'
+  volume: '2'
+  issue: '3'
+
+- id: tourr_library
+  type: article-journal
+  author:
+  - family: Hadley Wickham
+    given: Heike Hofmann
+    suffix: Dianne Cook
+  issued:
+  - year: '2011'
+  title: 'Tourr: An r package for exploring multivariate data with projections'
+  title-short: Tourr
+  container-title: Journal of Statistical Software
+  page: '1-18'
+  volume: '40'
+  issue: '2'
+
+- id: tourrGui_library
+  type: article-journal
+  author:
+  - family: Huang
+    given: Bei
+  - family: Cook
+    given: Dianne
+  - family: Wickham
+    given: Hadley
+  issued:
+  - year: '2012'
+  title: 'TourrGui: A gWidgets gui for the tour to explore high-dimensional data
+    using low-dimensional projections'
+  title-short: TourrGui
+  container-title: Journal of Statistical Software
+  page: '1-12'
+  volume: '49'
+  issue: '6'
+
+- id: scagnostics
+  type: webpage
+  author:
+  - family: Wilkinson
+    given: Lee
+  - family: Anand
+    given: Anushka
+  issued:
+  - year: '2012'
+  accessed:
+  - year: '2017'
+    month: '5'
+    day: '2'
+  title: 'Scagnostics: Compute scagnostics - scatterplot diagnostics'
+  title-short: Scagnostics
+  URL: https://cran.r-project.org/web/packages/scagnostics/
+
+- id: shiny
+  type: webpage
+  author:
+  - family: Various
+  issued:
+  - year: '2017'
+  accessed:
+  - year: '2017'
+    month: '5'
+    day: '2'
+  title: 'Shiny: Web application framework for r'
+  title-short: Shiny
+  URL: https://cran.r-project.org/web/packages/shiny/index.html
+...

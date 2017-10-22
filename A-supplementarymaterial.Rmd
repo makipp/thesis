@@ -1,0 +1,11 @@
+---
+knit: "bookdown::render_book"
+---
+
+\appendix
+
+# Supplementary Material
+
+Code for the project is available as a GitHub respository at https://github.com/makipp/TourGuiD3.
+
+This thesis is also available as a GitHub repository, at https://github.com/makipp/thesis.

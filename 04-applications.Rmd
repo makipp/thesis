@@ -1,0 +1,16 @@
+---
+chapter: 4
+knit: "bookdown::render_book"
+---
+
+# Applications {#ch:applications}
+
+## Physics
+
+We previously saw how this implementation of the tour can be applied to multivariate physics data. Particle physics models have multiple parameters, and the tour helps separate two groups based on differences in their shape. In particular, it allows more than two variables to be compared at once, something which is difficult to do visually using other techniques.
+
+## Econometrics
+
+The tour technique can be applied to Econometrics by providing a way to see differences between _any_ sets of data, that may be difficult to discern using classical visualisation techniques. The example video in \@ref{tourgui} features a dataset built by calculating various time series diagnostic measures, or Cognostics. Each point represents an individual time series, and there are two groups: one group of time series of seismic measuremets, and another with music data. You can see how the grand and guided tours immediately show the difference between the two groups, particularly in the ACF1 (first autocorrelation lag) and entropy variables.
+
+The tour can be applied to any situation requiring classification of groups with different centres and can expose interesting features which are not immediately obvious using simple statistical functions.

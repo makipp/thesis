@@ -1,0 +1,40 @@
+---
+chapter: 2
+knit: "bookdown::render_book"
+---
+
+# Software base {#ch:software}
+
+The software used to implement the new tour interface was built using the programming languages R and JavaScript (or JS). The computation engine and web framework is written in R using the `Shiny` package, while the visualisation rendering is handled in JS.
+
+## Shiny apps
+
+Shiny is developed by the team behind RStudio, a popular integrated development environment. The description at the Shiny homepage (https://shiny.rstudio.com/) reads: ``Shiny is an R package that makes it easy to build interactive web apps straight from R. You can host standalone apps on a webpage or enable them in R Markdown documents or build dashboards. You can also extend your Shiny apps with CSS themes, htmlwidgets, and JavaScript actions.''
+
+For our purposes, the features that made Shiny an attractive platform on which to build the new tour interface were:
+
+* an extensive catologue of UI widgets to use, with simple R function calls
+* the JS frontend, which means anyone with a web browser can access the app
+* a large user base and extensive documentation on the website, including premade examples
+* the backend is based on R, which is an industry standard.
+
+## Tourr
+
+The `tourr` package [@tourr_library] is an R implementation of the tour algorithms discussed in \@ref{litreview}. It includes methods for geodesic interpolation and basis generation, as well as an implementation of the simulated annealing algorithm to optimise projection pursuit indices for the guided tour.
+
+Each tour is initialised with the `new_tour()` method, which instantiates a `tour` object and takes as arguments the data $\mathbf{X}$, the tour method including projection pursuit index if applicable, and the starting basis (if any). Once initialised, a new target plane is chosen. When a floating point argument between 0 and 1 is given to the `tour` object, a projection is returned using geodesic interpolation. For example, a value of 0.5 would be ``half-way'' between the two target planes, and a value of 1 would return the next target plane without any interpolation.
+
+This series of calls to the `tour` object produces a series of projections. The value given can be understood as the ratio $\omega / f$, where $\omega$ denotes the angular velocity of the geodesic interpolation, and $f$ is a parameter denoting the rendering speed of the device in use, per unit time. $f$ is a function of the particular device and can be thought of as the ``frames per second``, while $\omega$ affects the speed at which the tour moves through the projection space. For our purposes, $f$, or ``fps`` in the code, is set at 25, while the $\omega$ can be manipulated by the user.
+
+The projections can either be saved as a series of matrices $\mathbf{X}\mathbf{A}$ or delivered to a rendering device immediately for display to the user as a scatter plot. Our implementation of the tour does not save any projections but displays them immediately, using D3.js.
+
+## D3.js
+
+D3.js is a JavaScript library for manipulating documents based on data. D3 stands for Data-Driven Documents and its home on the web is at https://d3js.org/. D3 uses HTML, JS, Scalable Vector Graphics (SVG) and Cascading Style Sheets (CSS) technology to render interactive data visualisations for display on a webpage.
+
+The advantages of D3 are similar to those provided by Shiny: namely, an industry standard with rich array of powerful, easy to use methods and widgets that can be displayed on a wide variety of devices, with a large user base. D3 works on data objects in the JavaScript Object Notation (JSON) format, which are then parsed and used to display customisable data visualisations.
+
+The flexibility of D3 means that there are practically limitless possibilities for visualisations, using the various graphical objects and modifiers available. Using JavaScript, visualisations are rendered in D3 and can be updated in real time based on input from the user. 
+
+The new implementation of the tour uses D3 to render each projection step returned by R, calculated with the tourr (@tourr_library) package, and update them in real-time as the tour traverses the projection space. It does this by drawing and re-drawing a scatterplot with dots (or `circles` in D3 language) and providing SVG objects for the web browser to render.
+
