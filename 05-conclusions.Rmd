@@ -23,6 +23,6 @@ Currently, the only way to load in a data set for use is to modify the code and 
 
 ## Manual tour controls
 
-Sliders to manually manipulate the combinations of the different variables could be added in order to allow the user to manipulate the projection directly. Instead of taking a random or guided tour through the projection space, per-variable sliders could be added as a factor to modify or replace the relevant cells in the projection matrix $\mathbf{A}$. This would allow the user to add or remove specific variables with preselected weights, in order to view the effect of adding/removing variables in clearer detail. @gt_pp_mc @ggobi @annealing @gt_pp @pp_indexes @scag @shiny @tourr_library @tourrGui_library @scagnostics 
+Sliders to manually manipulate the combinations of the different variables could be added in order to allow the user to manipulate the projection directly. Instead of taking a random or guided tour through the projection space, per-variable sliders could be added as a factor to modify or replace the relevant cells in the projection matrix $\mathbf{A}$. This would allow the user to add or remove specific variables with preselected weights, in order to view the effect of adding/removing variables in clearer detail. 
 
 

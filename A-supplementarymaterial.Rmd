@@ -2,10 +2,21 @@
 knit: "bookdown::render_book"
 ---
 
-\appendix
-
 # Supplementary Material
 
-Code for the project is available as a GitHub respository at https://github.com/makipp/TourGuiD3.
+This thesis is available in Rmarkdown format as GitHub repository at https://github.com/makipp/thesis.
 
-This thesis is also available as a GitHub repository, at https://github.com/makipp/thesis.
+Code for the project is available as a GitHub respository at https://github.com/makipp/TourrGuiD3. To run the app you will need the latest version of R and RStudio.
+
+To run the app:
+
+1. Visit the GitHub page, select "Download ZIP" under the green "Clone or Download button
+2. Save and extract the ZIP file to a location on your computer
+3. Ensure you have the following R packages installed via the `install.packages()` command:
+    * `shiny`
+    * `ggvis`
+    * `tidyverse`
+    * `tourr`
+    * `jsonlite`
+4. Open the `ui.R` file in RStudio and click on the "Run App" play button at the top-right hand corner of the code window to launch the app. 
+There are also other ways of loading shiny apps, for example https://shiny.rstudio.com/articles/app-formats.html and https://shiny.rstudio.com/articles/running.html
